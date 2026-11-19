@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ved Barve | Data Science @ UMN</title>
+<meta name="description" content="Ved Barve is a Data Science student at the University of Minnesota building small, useful tools: personal finance insights, building energy analytics, data checks and a few games.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;0,800;1,400&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0e14;
+  --bg2:#10141d;
+  --panel:#131826;
+  --line:#232b3d;
+  --text:#e6e9f0;
+  --dim:#8b93a7;
+  --green:#7ee787;
+  --amber:#ffa657;
+  --blue:#79c0ff;
+  --pink:#ff7b9c;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:"Space Grotesk",system-ui,sans-serif;
+  overflow-x:hidden;
+}
+body::before{ /* subtle grid, like graph paper under everything */
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:44px 44px;opacity:.16;
+}
+main,header,footer{position:relative;z-index:1}
+a{color:inherit}
+.mono{font-family:"JetBrains Mono",monospace}
+
+/* ---- boot loader ---- */
+#boot{
+  position:fixed;inset:0;background:var(--bg);z-index:50;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .5s ease;
+}
+#boot.done{opacity:0;pointer-events:none}
+#boot .term{
+  width:min(520px,86vw);font-family:"JetBrains Mono",monospace;font-size:14px;line-height:1.9;color:var(--dim);
+}
+#boot .term .ok{color:var(--green)}
+#boot .skip{
+  position:absolute;bottom:26px;right:30px;background:none;border:1px solid var(--line);
+  color:var(--dim);border-radius:999px;padding:8px 18px;font-family:"JetBrains Mono",monospace;font-size:12px;cursor:pointer;
+}
+#boot .skip:hover{color:var(--text);border-color:var(--dim)}
+.caret{display:inline-block;width:9px;height:16px;background:var(--green);vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ---- header ---- */
+header{
+  position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:20;
+  display:flex;align-items:center;gap:14px;
+  background:rgba(19,24,38,.85);backdrop-filter:blur(8px);
+  border:1px solid var(--line);border-radius:999px;padding:8px 10px 8px 20px;
+}
+header .logo{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:14px}
+header .logo b{color:var(--green)}
+header nav{display:flex;gap:4px}
+header nav a{
+  font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--dim);text-decoration:none;
+  padding:7px 14px;border-radius:999px;transition:.15s;white-space:nowrap;
+}
+header nav a:hover{color:var(--text);background:var(--bg2)}
+header .dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+
+/* ---- hero ---- */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:110px 20px 40px;gap:34px}
+.keys{display:flex;gap:clamp(8px,2vw,20px)}
+.key{
+  width:clamp(64px,12vw,150px);aspect-ratio:1;
+  display:flex;align-items:center;justify-content:center;
+  font-family:"JetBrains Mono",monospace;font-weight:800;font-size:clamp(34px,7vw,84px);
+  background:linear-gradient(180deg,var(--panel),var(--bg2));
+  border:1px solid var(--line);border-bottom-width:5px;border-radius:16px;
+  color:var(--text);cursor:default;user-select:none;
+  transition:transform .08s ease,border-color .15s,color .15s;
+}
+.key:hover{transform:translateY(3px);border-bottom-width:2px;color:var(--green)}
+.key.accent{color:var(--amber)}
+.hero .who{
+  width:min(680px,92vw);background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;font-family:"JetBrains Mono",monospace;font-size:14px;line-height:2;text-align:left;
+  box-shadow:0 20px 60px rgba(0,0,0,.45);
+}
+.hero .who .bar{display:flex;gap:7px;margin-bottom:14px}
+.hero .who .bar i{width:11px;height:11px;border-radius:50%;background:var(--line)}
+.hero .who .bar i:nth-child(1){background:#ff5f57}.hero .who .bar i:nth-child(2){background:#febc2e}.hero .who .bar i:nth-child(3){background:#28c840}
+.hero .who .p{color:var(--green)}
+.hero .who .cmd{color:var(--text)}
+.hero .who .out{color:var(--dim)}
+.hero .who .out b{color:var(--text);font-weight:700}
+.hero .who .out a{color:var(--blue);text-decoration:none}
+.hero .who .out a:hover{text-decoration:underline}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn{
+  font-family:"JetBrains Mono",monospace;font-size:13px;font-weight:700;text-decoration:none;
+  padding:13px 26px;border-radius:999px;border:1px solid var(--green);
+  background:var(--green);color:#0b0e14;transition:.15s;display:inline-flex;align-items:center;gap:8px;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--text);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--dim)}
+
+/* side chips under hero */
+.chips{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.chip{
+  display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);
+  border-radius:999px;padding:9px 18px;font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--dim);
+}
+.chip b{color:var(--text);font-weight:500}
+.chip .pulse{width:8px;height:8px;border-radius:50%;background:var(--amber);animation:blink 1.6s steps(1) infinite}
+
+/* ---- doors ---- */
+.doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;width:min(900px,92vw)}
+.door{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px 22px;text-decoration:none;display:flex;align-items:center;justify-content:space-between;
+  transition:.15s;
+}
+.door:hover{border-color:var(--green);transform:translateY(-3px)}
+.door small{display:block;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase}
+.door b{font-size:20px;font-weight:700}
+.door .go{font-family:"JetBrains Mono",monospace;color:var(--dim)}
+.door:hover .go{color:var(--green)}
+
+/* ---- sections ---- */
+section{width:min(1000px,92vw);margin:0 auto;padding:90px 0 20px;scroll-margin-top:84px}
+.sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:34px;flex-wrap:wrap}
+.sec-head .tag{font-family:"JetBrains Mono",monospace;color:var(--green);font-size:13px}
+.sec-head h2{font-size:clamp(30px,5vw,46px);font-weight:700;letter-spacing:-.02em}
+.sec-head h2 em{font-style:normal;color:var(--amber)}
+
+.projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px}
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;display:flex;flex-direction:column;gap:12px;transition:.15s;position:relative;
+}
+.card:hover{border-color:var(--blue);transform:translateY(-3px)}
+.card .num{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--dim)}
+.card .kind{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--pink);letter-spacing:.08em;text-transform:uppercase}
+.card h3{font-size:21px;font-weight:700}
+.card p{color:var(--dim);font-size:14.5px;line-height:1.65;flex:1}
+.card .stack{display:flex;gap:7px;flex-wrap:wrap}
+.card .stack span{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--blue);background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:3px 9px}
+.card .links{display:flex;gap:14px;margin-top:4px}
+.card .links a{font-family:"JetBrains Mono",monospace;font-size:12.5px;font-weight:700;color:var(--green);text-decoration:none}
+.card .links a:hover{text-decoration:underline}
+.note{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--dim);margin-top:18px}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+@media(max-width:760px){.about-grid{grid-template-columns:1fr}}
+.about-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+.about-card p{color:var(--dim);font-size:15px;line-height:1.75;margin-bottom:14px}
+.about-card p b{color:var(--text)}
+.facts{list-style:none;display:flex;flex-direction:column;gap:12px}
+.facts li{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--dim);display:flex;gap:10px;align-items:baseline}
+.facts li b{color:var(--green);font-weight:500;min-width:88px}
+
+footer{padding:70px 20px 40px;text-align:center;color:var(--dim);font-family:"JetBrains Mono",monospace;font-size:12px}
+footer .sig{font-size:15px;color:var(--text);margin-bottom:8px}
+footer .sig b{color:var(--green)}
+@media(max-width:560px){
+  .hero{padding-top:90px;gap:26px}
+  header{gap:8px;padding:8px 8px 8px 14px;max-width:94vw}
+  header .logo{font-size:12px}
+  header nav a{padding:7px 9px;font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div id="boot" aria-hidden="true">
+  <div class="term" id="bootTerm"></div>
+  <button class="skip" id="bootSkip" type="button">skip →</button>
+</div>
+
+<header>
+  <span class="logo">ved<b>@</b>umn<b>:~$</b></span>
+  <nav>
+    <a href="#projects">projects</a>
+    <a href="#about">about</a>
+    <a href="https://github.com/vedhb26-hub">github ↗</a>
+  </nav>
+  <span class="dot" title="online"></span>
+</header>
+
+<main>
+  <section class="hero" id="top">
+    <div class="keys" aria-label="Ved Barve">
+      <span class="key">V</span><span class="key">E</span><span class="key accent">D</span>
+    </div>
+
+    <div class="who" aria-label="About Ved">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <div><span class="p">ved@umn:~$</span> <span class="cmd" id="typeCmd"></span><span class="caret"></span></div>
+      <div class="out" id="typeOut" style="visibility:hidden">
+        <b>Ved Barve</b>, Data Science sophomore @ University of Minnesota.<br>
+        I make small apps and tools when the semester lets me.<br>
+        It rarely lets me.
+      </div>
+    </div>
+
+    <div class="ctas">
+      <a class="btn" href="#projects">see the projects ↓</a>
+      <a class="btn ghost" href="https://github.com/vedhb26-hub">github ↗</a>
+    </div>
+
+    <div class="chips">
+      <span class="chip"><span class="pulse"></span> now: <b>the semester, unfortunately</b></span>
+      <span class="chip">based in <b>Minneapolis, MN</b></span>
+    </div>
+
+    <nav class="doors" aria-label="Explore">
+      <a class="door" href="#projects"><span><small>3 demos, 5 repos</small><b>Projects</b></span><span class="go">-&gt;</span></a>
+      <a class="door" href="#about"><span><small>the short version</small><b>About</b></span><span class="go">-&gt;</span></a>
+      <a class="door" href="https://github.com/vedhb26-hub"><span><small>source, unfiltered</small><b>GitHub</b></span><span class="go">-&gt;</span></a>
+    </nav>
+  </section>
+
+  <section id="projects">
+    <div class="sec-head">
+      <span class="tag">~/projects $</span>
+      <h2>things I've <em>made</em></h2>
+    </div>
+    <div class="projects">
+      <div class="card">
+        <span class="num">01</span><span class="kind">personal finance</span>
+        <h3>MoneyInsights</h3>
+        <p>Upload a CSV of your transactions and see where your money goes. Filter spending by category, compare monthly income and expenses, and download the results.</p>
+        <div class="stack"><span>Python</span><span>Streamlit</span><span>pandas</span></div>
+        <div class="links"><a href="https://moneyinsights.streamlit.app/">open demo ↗</a><a href="https://github.com/vedhb26-hub/spending-insights">view code ↗</a></div>
+      </div>
+      <div class="card">
+        <span class="num">02</span><span class="kind">building analytics</span>
+        <h3>Building Electricity Review</h3>
+        <p>A dashboard that compares a building's electricity use with a model's prediction and highlights unusual hours. It uses past public data, not live readings. An unusual hour doesn't necessarily mean something is wrong.</p>
+        <div class="stack"><span>Python</span><span>Streamlit</span><span>historical data</span></div>
+        <div class="links"><a href="https://building-electricity-review.streamlit.app/">open demo ↗</a><a href="https://github.com/vedhb26-hub/building-electricity-review">view code ↗</a></div>
+      </div>
+      <div class="card">
+        <span class="num">03</span><span class="kind">data checking</span>
+        <h3>Data Quality Scorer</h3>
+        <p>A Python tool that checks CSV files for missing values, repeated rows and unusual numbers. It gives a score and suggests what to look at. The score is a starting point, not a full check of the data.</p>
+        <div class="stack"><span>Python</span><span>FastAPI</span><span>pandas</span></div>
+        <div class="links"><a href="https://github.com/vedhb26-hub/data_quality">view code ↗</a></div>
+      </div>
+      <div class="card">
+        <span class="num">04</span><span class="kind">cricket experiment</span>
+        <h3>Cricket Squad Builder</h3>
+        <p>Pick a cricket squad while staying within a budget. Search players, filter by team or price, and check whether your squad meets the rules. The player list is fixed, not updated live.</p>
+        <div class="stack"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+        <div class="links"><a href="https://github.com/vedhb26-hub/dreamteampreview">view code ↗</a></div>
+      </div>
+      <div class="card">
+        <span class="num">05</span><span class="kind">browser game</span>
+        <h3>Family Feud: Player Edition</h3>
+        <p>A browser game for playing Family Feud with friends or family. Choose a question, reveal answers, give points to players and mark strikes.</p>
+        <div class="stack"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+        <div class="links"><a href="https://ff-bhdep.vercel.app/">open demo ↗</a><a href="https://github.com/vedhb26-hub/ff-bhdep">view code ↗</a></div>
+      </div>
+    </div>
+    <p class="note">// streamlit demos nap on free hosting. if one's asleep, hit the wake button and give it half a minute</p>
+  </section>
+
+  <section id="about">
+    <div class="sec-head">
+      <span class="tag">~/about $</span>
+      <h2>the <em>short</em> version</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-card">
+        <p>I'm <b>Ved Barve</b>, a second-year Data Science student at the University of Minnesota. Mostly Python, some Java against my will. I like tools that do one thing and do it properly.</p>
+        <p>The five above are the survivors. Three have live demos you can actually try, and the code for everything is on my GitHub.</p>
+      </div>
+      <div class="about-card">
+        <ul class="facts">
+          <li><b>studies</b> data science @ umn, sophomore</li>
+          <li><b>codes in</b> python mostly, java lately</li>
+          <li><b>follows</b> cricket + f1, religiously</li>
+          <li><b>defends</b> virat kohli, unprompted</li>
+          <li><b>motto</b> healthy everyday</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="sig">ved<b>@</b>umn<b>:~$</b> exit 0</div>
+  <div>thanks for stopping by. more on <a href="https://github.com/vedhb26-hub" style="color:var(--green)">github</a></div>
+</footer>
+
+<script>
+(function(){
+  var boot=document.getElementById('boot'),term=document.getElementById('bootTerm'),skip=document.getElementById('bootSkip');
+  var lines=['$ git clone ved-barve/portfolio','<span class="ok">✓</span> 5 projects found','<span class="ok">✓</span> 3 demos live','rendering…'];
+  var i=0,done=false;
+  function finish(){ if(done)return; done=true; boot.classList.add('done'); setTimeout(function(){boot.style.display='none'},600); typeHero(); }
+  function nextLine(){
+    if(i>=lines.length){ setTimeout(finish,350); return; }
+    var d=document.createElement('div'); d.innerHTML=lines[i++]; term.appendChild(d);
+    setTimeout(nextLine, i===1?500:260);
+  }
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ finish(); } else { setTimeout(nextLine,300); }
+  setTimeout(finish,4000); /* never trap anyone */
+  skip.addEventListener('click',finish);
+  boot.addEventListener('click',function(e){ if(e.target===boot) finish(); });
+
+  var cmd='whoami',cmdEl=document.getElementById('typeCmd'),out=document.getElementById('typeOut'),typed=false;
+  function typeHero(){
+    if(typed)return; typed=true;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ cmdEl.textContent=cmd; out.style.visibility='visible'; return; }
+    var j=0;
+    (function t(){ if(j<=cmd.length){ cmdEl.textContent=cmd.slice(0,j++); setTimeout(t,90);} else { out.style.visibility='visible'; } })();
+  }
+})();
+</script>
+</body>
+</html>
