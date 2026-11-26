@@ -228,7 +228,7 @@ footer .sig b{color:var(--green)}
     </div>
 
     <nav class="doors" aria-label="Explore">
-      <a class="door" href="#projects"><span><small>3 demos, 5 repos</small><b>Projects</b></span><span class="go">-&gt;</span></a>
+      <a class="door" href="#projects"><span><small>5 demos, 7 repos</small><b>Projects</b></span><span class="go">-&gt;</span></a>
       <a class="door" href="#about"><span><small>the short version</small><b>About</b></span><span class="go">-&gt;</span></a>
       <a class="door" href="https://github.com/vedhb26-hub"><span><small>source, unfiltered</small><b>GitHub</b></span><span class="go">-&gt;</span></a>
     </nav>
@@ -275,6 +275,20 @@ footer .sig b{color:var(--green)}
         <div class="stack"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
         <div class="links"><a href="https://ff-bhdep.vercel.app/">open demo ↗</a><a href="https://github.com/vedhb26-hub/ff-bhdep">view code ↗</a></div>
       </div>
+      <div class="card">
+        <span class="num">06</span><span class="kind">cricket stats</span>
+        <h3>T20 Player Comparison</h3>
+        <p>Pick two players and compare them on the numbers that matter in modern T20: strike rate, dot-ball and boundary percentages, and phase splits. Built on free Cricsheet ball-by-ball data across internationals and leagues like the IPL. A few matches are missing from the data, so totals are close, not exact.</p>
+        <div class="stack"><span>Python</span><span>Streamlit</span><span>Cricsheet data</span></div>
+        <div class="links"><a href="https://t20-player-comparison.streamlit.app/">open demo ↗</a><a href="https://github.com/vedhb26-hub/t20-player-comparison">view code ↗</a></div>
+      </div>
+      <div class="card">
+        <span class="num">07</span><span class="kind">live cricket stats</span>
+        <h3>SMAT 2026/27 Dashboard</h3>
+        <p>Live stats for India's Syed Mushtaq Ali Trophy: batting and bowling leaderboards, full match scorecards and the points table. It reads from a database that refreshes daily, so new matches show up on their own.</p>
+        <div class="stack"><span>Python</span><span>Streamlit</span><span>TiDB</span></div>
+        <div class="links"><a href="https://smat-2026-27-dashboard.streamlit.app/">open demo ↗</a><a href="https://github.com/vedhb26-hub/smat-2026-27-dashboard">view code ↗</a></div>
+      </div>
     </div>
     <p class="note">// streamlit demos nap on free hosting. if one's asleep, hit the wake button and give it half a minute</p>
   </section>
@@ -287,7 +301,7 @@ footer .sig b{color:var(--green)}
     <div class="about-grid">
       <div class="about-card">
         <p>I'm <b>Ved Barve</b>, a second-year Data Science student at the University of Minnesota. Mostly Python, some Java against my will. I like tools that do one thing and do it properly.</p>
-        <p>The five above are the survivors. Three have live demos you can actually try, and the code for everything is on my GitHub.</p>
+        <p>The seven above are the survivors. Five have live demos you can actually try, and the code for everything is on my GitHub.</p>
       </div>
       <div class="about-card">
         <ul class="facts">
@@ -310,7 +324,7 @@ footer .sig b{color:var(--green)}
 <script>
 (function(){
   var boot=document.getElementById('boot'),term=document.getElementById('bootTerm'),skip=document.getElementById('bootSkip');
-  var lines=['$ git clone ved-barve/portfolio','<span class="ok">✓</span> 5 projects found','<span class="ok">✓</span> 3 demos live','rendering…'];
+  var lines=['$ git clone ved-barve/portfolio','<span class="ok">✓</span> 7 projects found','<span class="ok">✓</span> 5 demos live','rendering…'];
   var i=0,done=false;
   function finish(){ if(done)return; done=true; boot.classList.add('done'); setTimeout(function(){boot.style.display='none'},600); typeHero(); }
   function nextLine(){
